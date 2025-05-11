@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MoneyPall - Register{% endblock title %}
+
+{% block content %}
+    <!-- Register Hero Section -->
+    <header class="hero-section" id="register">
+        <div class="container">
+            <div class="hero-content text-center">
+                <h1 class="hero-title" 
+                    data-en="Create Your MoneyPall Account" 
+                    data-ru="Создайте аккаунт MoneyPall" 
+                    data-uz="MoneyPall hisobingizni yarating">
+                    Create Your MoneyPall Account
+                </h1>
+                <p class="hero-text" 
+                    data-en="Join thousands of users managing their finances with ease" 
+                    data-ru="Присоединяйтесь к тысячам пользователей, управляющих финансами с легкостью" 
+                    data-uz="Moliyasini oson boshqaradigan minglab foydalanuvchilarga qo'shiling">
+                    Join thousands of users managing their finances with ease
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Register Form Section -->
+    <section class="register-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="register-card">
+                        <div class="section-title text-center">
+                            <h2 data-en="Register" data-ru="Регистрация" data-uz="Ro'yxatdan o'tish">Register</h2>
+                            <p data-en="Fill in your details to get started" 
+                               data-ru="Заполните данные, чтобы начать" 
+                               data-uz="Boshlash uchun ma'lumotlaringizni to'ldiring">
+                               Fill in your details to get started
+                            </p>
+                        </div>
+                        <form id="registerForm" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <!-- Username -->
+                            <div class="form-group">
+                                <label for="{{ form.username.id_for_label }}" 
+                                       data-en="Username" 
+                                       data-ru="Имя пользователя" 
+                                       data-uz="Foydalanuvchi nomi">
+                                    Username
+                                </label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.username.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- First Name -->
+                            <div class="form-group">
+                                <label for="{{ form.first_name.id_for_label }}" 
+                                       data-en="First Name" 
+                                       data-ru="Имя" 
+                                       data-uz="Ism">
+                                    First Name
+                                </label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.first_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Last Name -->
+                            <div class="form-group">
+                                <label for="{{ form.last_name.id_for_label }}" 
+                                       data-en="Last Name" 
+                                       data-ru="Фамилия" 
+                                       data-uz="Familiya">
+                                    Last Name
+                                </label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.last_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Email -->
+                            <div class="form-group">
+                                <label for="{{ form.email.id_for_label }}" 
+                                       data-en="Email Address" 
+                                       data-ru="Электронная почта" 
+                                       data-uz="Elektron pochta">
+                                    Email Address
+                                </label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Profile Photo -->
+                            <div class="form-group">
+                                <label for="{{ form.profile_photo.id_for_label }}" 
+                                       data-en="Profile Photo" 
+                                       data-ru="Фото профиля" 
+                                       data-uz="Profil rasmi">
+                                    Profile Photo
+                                </label>
+                                {{ form.profile_photo }}
+                                {% if form.profile_photo.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.profile_photo.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Password1 -->
+                            <div class="form-group">
+                                <label for="{{ form.password1.id_for_label }}" 
+                                       data-en="Password" 
+                                       data-ru="Пароль" 
+                                       data-uz="Parol">
+                                    Password
+                                </label>
+                                {{ form.password1 }}
+                                {% if form.password1.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.password1.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Password2 -->
+                            <div class="form-group">
+                                <label for="{{ form.password2.id_for_label }}" 
+                                       data-en="Confirm Password" 
+                                       data-ru="Подтвердите пароль" 
+                                       data-uz="Parolni tasdiqlang">
+                                    Confirm Password
+                                </label>
+                                {{ form.password2 }}
+                                {% if form.password2.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.password2.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary btn-block btn-signup" 
+                                    data-en="Create Account" 
+                                    data-ru="Создать аккаунт" 
+                                    data-uz="Hisob yaratish">
+                                Create Account
+                            </button>
+                        </form>
+                        <div class="text-center mt-3">
+                            <p data-en="Already have an account? <a href='{% url 'login' %}' class='login-link'>Log In</a>" 
+                               data-ru="Уже есть аккаунт? <a href='{% url 'login' %}' class='login-link'>Войти</a>" 
+                               data-uz="Allaqachon hisobingiz bormi? <a href='{% url 'login' %}' class='login-link'>Kirish</a>">
+                                Already have an account? <a href="{% url 'login' %}" class="login-link">Log In</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

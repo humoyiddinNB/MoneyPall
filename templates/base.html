@@ -1,0 +1,199 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyPall - Smart Personal Finance Tracker</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <!-- Lottie Player -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.2/lottie.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body class="light-mode">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'homepage' %}">
+                <i class="bi bi-wallet2 logo-icon"></i>
+                <span class="logo-text">MoneyPall</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+                <i class="bi bi-list"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+    <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'homepage' %}active{% endif %}"
+           href="{% url 'homepage' %}"
+           data-en="Home"
+           data-ru="Главная"
+           data-uz="Bosh sahifa">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'features' %}active{% endif %}"
+           href="#features"
+           data-en="Features"
+           data-ru="Функции"
+           data-uz="Imkoniyatlar">Features</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+           href="#contact"
+           data-en="Contact"
+           data-ru="Контакты"
+           data-uz="Aloqa">Contact</a>
+    </li>
+    {% if request.user.is_authenticated %}
+    <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+           href="{% url 'dashboard' %}"
+           data-en="Dashboard"
+           data-ru="Панель"
+           data-uz="Boshqaruv paneli">Dashboard</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}"
+           href="{% url 'profile' %}"
+           data-en="Profile"
+           data-ru="Профиль"
+           data-uz="Profil">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'logout_confirm' %}active{% endif %}"
+           href="{% url 'logout_confirm' %}"
+           id="logoutButton"
+           data-en="Logout"
+           data-ru="Выйти"
+           data-uz="Chiqish">Logout</a>
+    </li>
+    {% else %}
+    <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}"
+           href="{% url 'login' %}"
+           data-en="Login"
+           data-ru="Вход"
+           data-uz="Kirish">Login</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}"
+           href="{% url 'register' %}"
+           data-en="Register"
+           data-ru="Регистрация"
+           data-uz="Ro'yxatdan o'tish">Register</a>
+    </li>
+    {% endif %}
+    <li class="nav-item ms-2">
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round">
+                    <i class="bi bi-moon-stars-fill dark-icon"></i>
+                    <i class="bi bi-brightness-high-fill light-icon"></i>
+                </div>
+            </label>
+        </div>
+    </li>
+    <li class="nav-item dropdown ms-2">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-globe"></i> <span class="language-text">EN</span>
+        </a>
+        <ul class="dropdown-menu language-dropdown">
+            <li><a class="dropdown-item" href="#" data-language="en"><span class="flag-icon flag-en"></span> English</a></li>
+            <li><a class="dropdown-item" href="#" data-language="ru"><span class="flag-icon flag-ru"></span> Русский</a></li>
+            <li><a class="dropdown-item" href="#" data-language="uz"><span class="flag-icon flag-uz"></span> O'zbekcha</a></li>
+        </ul>
+    </li>
+</ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="logoutModalLabel">Tizimdan chiqish</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Haqiqatan ham tizimdan chiqmoqchimisiz?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Bekor qilish</button>
+            <a href="{% url 'logout' %}" class="btn btn-primary">Ha, chiqish</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer class="footer-section" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="footer-brand">
+                        <i class="bi bi-wallet2 logo-icon"></i>
+                        <span class="logo-text">MoneyPall</span>
+                    </div>
+                    <p class="footer-description" data-en="Your smart financial companion for better money management." data-ru="Ваш умный финансовый помощник для лучшего управления деньгами." data-uz="Pulni yaxshiroq boshqarish uchun aqlli moliyaviy hamrohingiz.">Your smart financial companion for better money management.</p>
+                </div>
+                <div class="col-lg-2">
+                    <h5 data-en="Features" data-ru="Функции" data-uz="Imkoniyatlar">Features</h5>
+                    <ul class="footer-links">
+                        <li><a href="#" data-en="Budgeting" data-ru="Бюджетирование" data-uz="Budjetlashtirish">Budgeting</a></li>
+                        <li><a href="#" data-en="Reports" data-ru="Отчеты" data-uz="Hisobotlar">Reports</a></li>
+                        <li><a href="#" data-en="Savings" data-ru="Сбережения" data-uz="Tejamlar">Savings</a></li>
+                        <li><a href="#" data-en="Goals" data-ru="Цели" data-uz="Maqsadlar">Goals</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h5 data-en="Resources" data-ru="Ресурсы" data-uz="Resurslar">Resources</h5>
+                    <ul class="footer-links">
+                        <li><a href="#" data-en="Blog" data-ru="Блог" data-uz="Blog">Blog</a></li>
+                        <li><a href="#" data-en="Guides" data-ru="Руководства" data-uz="Qo'llanmalar">Guides</a></li>
+                        <li><a hrefhttp://127.0.0.1:8000/profile/#home="#" data-en="Help Center" data-ru="Центр помощи" data-uz="Yordam markazi">Help Center</a></li>
+                        <li><a href="#" data-en="FAQ" data-ru="Часто задаваемые вопросы" data-uz="Ko'p so'raladigan savollar">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h5 data-en="Company" data-ru="Компания" data-uz="Kompaniya">Company</h5>
+                    <ul class="footer-links">
+                        <li><a href="#" data-en="About Us" data-ru="О нас" data-uz="Biz haqimizda">About Us</a></li>
+                        <li><a href="#" data-en="Careers" data-ru="Карьера" data-uz="Karyera">Careers</a></li>
+                        <li><a href="#" data-en="Press" data-ru="Пресса" data-uz="Matbuot">Press</a></li>
+                        <li><a href="#" data-en="Contact" data-ru="Контакты" data-uz="Aloqa">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h5 data-en="Connect" data-ru="Соцсети" data-uz="Ijtimoiy tarmoqlar">Connect</h5>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright" data-en="© 2025 MoneyPall. All rights reserved." data-ru="© 2025 MoneyPall. Все права защищены." data-uz="© 2025 MoneyPall. Barcha huquqlar himoyalangan.">© 2025 MoneyPall. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+</html>

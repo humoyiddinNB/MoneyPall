@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block title %}MoneyPall{% endblock title %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <header class="hero-section" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="hero-title" data-en="Master Your Money with MoneyPall" data-ru="Управляйте финансами с MoneyPall" data-uz="MoneyPall bilan pulingizni boshqaring">Master Your Money with MoneyPall</h1>
+                        <p class="hero-text" data-en="Smart, intuitive personal finance tracker that helps you understand your spending habits and save more." data-ru="Умный, интуитивный трекер личных финансов, который помогает понять ваши привычки расходов и сэкономить больше." data-uz="Aqlli, intuitiv shaxsiy moliya kuzatuvchisi, xarajatlar odatlaringizni tushunishga va ko'proq tejashga yordam beradi.">Smart, intuitive personal finance tracker that helps you understand your spending habits and save more.</p>
+                        <div class="hero-buttons">
+                            <a href="{% url 'dashboard' %}" >
+                                <button class="btn btn-primary btn-lg btn-income" data-en="Add Income" data-ru="Добавить доход" data-uz="Daromad qo'shish">
+                                    <i class="bi bi-plus-circle-fill"></i> Add Income
+                                </button>
+                            </a>
+                            <a href="{% url 'dashboard' %}" >
+                                <button class="btn btn-danger btn-lg btn-expense" data-en="Add Expense" data-ru="Добавить расход" data-uz="Xarajat qo'shish">
+                                    <i class="bi bi-dash-circle-fill"></i> Add Expense
+                                </button>
+                            </a>
+                            <a href="{% url 'dashboard' %}" >
+                                <button class="btn btn-info btn-lg btn-summary" data-en="View Summary" data-ru="Просмотр сводки" data-uz="Hisobotni ko'rish">
+                                    <i class="bi bi-graph-up"></i> View Summary
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-animation-container">
+                        <div id="heroAnimation"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2 data-en="Key Features" data-ru="Ключевые функции" data-uz="Asosiy imkoniyatlar">Key Features</h2>
+                <p data-en="Everything you need to take control of your finances" data-ru="Все, что нужно для контроля над финансами" data-uz="Moliyangizni nazorat qilish uchun kerak bo'lgan barcha narsalar">Everything you need to take control of your finances</p>
+            </div>
+            <div class="row feature-cards">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <h3 data-en="Track Expenses" data-ru="Отслеживание расходов" data-uz="Xarajatlarni kuzatish">Track Expenses</h3>
+                        <p data-en="Monitor your daily, weekly, and monthly spending patterns with easy-to-use tools." data-ru="Отслеживайте ежедневные, еженедельные и ежемесячные расходы с помощью удобных инструментов." data-uz="Qulay vositalar yordamida kunlik, haftalik va oylik xarajatlar modellaringizni kuzating.">Monitor your daily, weekly, and monthly spending patterns with easy-to-use tools.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-piggy-bank"></i>
+                        </div>
+                        <h3 data-en="Savings Goals" data-ru="Цели сбережений" data-uz="Tejash maqsadlari">Savings Goals</h3>
+                        <p data-en="Set personalized savings targets and track your progress toward financial freedom." data-ru="Устанавливайте персонализированные цели сбережений и отслеживайте свой прогресс к финансовой свободе." data-uz="Shaxsiy tejash maqsadlarini belgilang va moliyaviy erkinlikka erishish yo'lidagi taraqqiyotingizni kuzating.">Set personalized savings targets and track your progress toward financial freedom.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-bar-chart"></i>
+                        </div>
+                        <h3 data-en="Smart Reports" data-ru="Умные отчеты" data-uz="Aqlli hisobotlar">Smart Reports</h3>
+                        <p data-en="Generate detailed insights on your spending habits with beautiful, interactive charts." data-ru="Создавайте подробные аналитические данные о ваших привычках расходов с красивыми интерактивными диаграммами." data-uz="Chiroyli, interaktiv grafiklar bilan xarajat odatlaringiz haqida batafsil ma'lumotlarni yarating.">Generate detailed insights on your spending habits with beautiful, interactive charts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview Section -->
+    <section class="dashboard-section" id="dashboard">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2 data-en="Dashboard Preview" data-ru="Предпросмотр панели" data-uz="Boshqaruv paneli ko'rinishi">Dashboard Preview</h2>
+                <p data-en="See your financial data at a glance" data-ru="Ваши финансовые данные с первого взгляда" data-uz="Moliyaviy ma'lumotlaringizni bir qarashda ko'ring">See your financial data at a glance</p>
+            </div>
+            <div class="row dashboard-cards">
+                <!-- Bugungi daromad -->
+                <div class="col-md-4">
+                    <div class="dashboard-card income-card">
+                        <div class="card-header">
+                            <h3 data-en="Today's Income" data-ru="Доход сегодня" data-uz="Bugungi daromad">Today's Income</h3>
+                            <span class="card-icon"><i class="bi bi-cash-coin"></i></span>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="amount">${{ todays_income }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Haftalik daromad -->
+                <div class="col-md-4">
+                    <div class="dashboard-card income-card">
+                        <div class="card-header">
+                            <h3 data-en="This Week's Income" data-ru="Доход за неделю" data-uz="Haftalik daromad">This Week's Income</h3>
+                            <span class="card-icon"><i class="bi bi-calendar-week"></i></span>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="amount">${{ weekly_income }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Oylik daromad -->
+                <div class="col-md-4">
+                    <div class="dashboard-card income-card">
+                        <div class="card-header">
+                            <h3 data-en="This Month's Income" data-ru="Доход за месяц" data-uz="Oylik daromad">This Month's Income</h3>
+                            <span class="card-icon"><i class="bi bi-calendar-month"></i></span>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="amount">${{ monthly_income }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    {% if not request.user.is_authenticated %}
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 data-en="Ready to Take Control of Your Finances?" data-ru="Готовы взять под контроль свои финансы?" data-uz="Moliyangizni nazorat qilishga tayyormisiz?">Ready to Take Control of Your Finances?</h2>
+                <p data-en="Join thousands of users who have transformed their financial habits with MoneyPall" data-ru="Присоединяйтесь к тысячам пользователей, которые изменили свои финансовые привычки с MoneyPall" data-uz="MoneyPall bilan moliyaviy odatlarini o'zgartirgan minglab foydalanuvchilarga qo'shiling">Join thousands of users who have transformed their financial habits with MoneyPall</p>
+                <button class="btn btn-primary btn-lg btn-signup" data-en="Sign Up Free" data-ru="Зарегистрироваться бесплатно" data-uz="Bepul ro'yxatdan o'tish">
+                    <i class="bi bi-person-plus-fill"></i> Sign Up Free
+                </button>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MoneyPall - OTP Verify{% endblock title %}
+
+{% block content %}
+    <!-- OTP Verify Hero Section -->
+    <header class="hero-section" id="otp-verify">
+        <div class="container">
+            <div class="hero-content text-center">
+                <h1 class="hero-title"
+                    data-en="Verify Your OTP"
+                    data-ru="Подтвердите OTP"
+                    data-uz="OTP ni tasdiqlang">
+                    Verify Your OTP
+                </h1>
+                <p class="hero-text"
+                    data-en="Enter the OTP sent to your email"
+                    data-ru="Введите OTP, отправленный на ваш email"
+                    data-uz="Emailingizga yuborilgan OTP ni kiriting">
+                    Enter the OTP sent to your email
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- OTP Verify Form Section -->
+    <section class="otp-verify-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="otp-verify-card">
+                        <div class="section-title text-center">
+                            <h2 data-en="OTP Verification" data-ru="Проверка OTP" data-uz="OTP tasdiqlash">OTP Verification</h2>
+                            <p data-en="Check your email for the 6-digit code"
+                               data-ru="Проверьте email для получения 6-значного кода"
+                               data-uz="6 raqamli kod uchun emailingizni tekshiring">
+                               Check your email for the 6-digit code
+                            </p>
+                        </div>
+                        {% if messages %}
+                            <div class="alert {% if 'error' in messages.tags %}alert-danger{% else %}alert-success{% endif %}">
+                                {% for message in messages %}
+                                    {{ message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <form id="otpVerifyForm" method="POST" action="{% url 'otp_verify' %}" style="margin-bottom: 200px;">
+                            {% csrf_token %}
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label for="otp_code"
+                                       data-en="OTP Code"
+                                       data-ru="Код OTP"
+                                       data-uz="OTP kodi">
+                                    OTP Code
+                                </label>
+                                <input type="text" class="form-control" id="otp_code" name="otp_code" maxlength="6" pattern="\d{6}" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block"
+                                    data-en="Verify OTP"
+                                    data-ru="Подтвердить OTP"
+                                    data-uz="OTP ni tasdiqlash">
+                                Verify OTP
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

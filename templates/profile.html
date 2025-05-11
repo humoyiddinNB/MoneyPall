@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MoneyPall - Profile{% endblock title %}
+
+{% block content %}
+    <!-- Profile Hero Section -->
+    <header class="hero-section" id="profile">
+    </header>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="profile-card">
+                        <div class="section-title text-center">
+                            <h2 data-en="Profile Details" data-ru="Детали профиля" data-uz="Profil ma'lumotlari">Profile Details</h2>
+                            <p data-en="View and edit your account details" 
+                               data-ru="Просмотр и редактирование данных аккаунта" 
+                               data-uz="Hisob ma'lumotlarini ko'rish va tahrirlash">
+                               View and edit your account details
+                            </p>
+                        </div>
+                        {% if messages %}
+                            <div class="alert {% if 'error' in messages.tags %}alert-danger{% else %}alert-success{% endif %}">
+                                {% for message in messages %}
+                                    {{ message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <!-- Profile Display -->
+                        <div class="profile-display text-center mb-4">
+                            <img src="{{ user.profile_photo.url }}" alt="Profile Photo" class="profile-photo rounded-circle mb-3" width="100" height="100">
+                            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                            <p class="text-muted">{{ user.email }}</p>
+                            <p class="text-muted">{{ user.username }}</p>
+                        </div>
+                        <!-- Profile Edit Form -->
+                        <div class="profile-info">
+                            <div class="form-group">
+                                <label data-en="Username"
+                                       data-ru="Имя пользователя"
+                                       data-uz="Foydalanuvchi nomi">
+                                    Username
+                                </label>
+                                <p class="form-control-static">{{ user.username }}</p>
+                            </div>
+                            <div class="form-group">
+                                <label data-en="First Name"
+                                       data-ru="Имя"
+                                       data-uz="Ism">
+                                    First Name
+                                </label>
+                                <p class="form-control-static">{{ user.first_name }}</p>
+                            </div>
+                            <div class="form-group">
+                                <label data-en="Last Name"
+                                       data-ru="Фамилия"
+                                       data-uz="Familiya">
+                                    Last Name
+                                </label>
+                                <p class="form-control-static">{{ user.last_name }}</p>
+                            </div>
+                            <div class="form-group">
+                                <label data-en="Email Address"
+                                       data-ru="Электронная почта"
+                                       data-uz="Elektron pochta">
+                                    Email Address
+                                </label>
+                                <p class="form-control-static">{{ user.email }}</p>
+                            </div>
+                        </div>
+                        <div class="profile-actions text-center mt-4">
+                            <a href="{% url 'profile_update' %}" class="btn btn-primary btn-profile-edit"
+                               data-en="Edit Profile" data-ru="Редактировать профиль" data-uz="Profilni tahrirlash">
+                                Edit Profile
+                            </a>
+                            <a href="{% url 'delete_account' %}" class="btn btn-danger btn-profile-delete"
+                               data-en="Delete Account" data-ru="Удалить аккаунт" data-uz="Hisobni o'chirish">
+                                Delete Account
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

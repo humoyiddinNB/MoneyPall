@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MoneyPall - Edit Profile{% endblock title %}
+
+{% block content %}
+    <!-- Edit Profile Hero Section -->
+    <header class="hero-section" id="edit-profile">
+    </header>
+
+    <!-- Edit Profile Section -->
+    <section class="edit-profile-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="edit-profile-card">
+                        <div class="section-title text-center">
+                            <h2 data-en="Edit Profile" 
+                                data-ru="Редактировать профиль" 
+                                data-uz="Profilni tahrirlash">
+                                Edit Profile
+                            </h2>
+                            <p data-en="Modify your personal information below." 
+                               data-ru="Измените личную информацию ниже." 
+                               data-uz="Quyida shaxsiy ma'lumotlaringizni o'zgartiring.">
+                               Modify your personal information below.
+                            </p>
+                        </div>
+                        {% if messages %}
+                            <div class="alert {% if 'error' in messages.tags %}alert-danger{% else %}alert-success{% endif %}">
+                                {% for message in messages %}
+                                    {{ message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <form id="editProfileForm" method="POST" enctype="multipart/form-data" action="{% url 'profile_update' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="id_username" 
+                                       data-en="Username" 
+                                       data-ru="Имя пользователя" 
+                                       data-uz="Foydalanuvchi nomi">
+                                    Username
+                                </label>
+                                {{ form.username }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_first_name" 
+                                       data-en="First Name" 
+                                       data-ru="Имя" 
+                                       data-uz="Ism">
+                                    First Name
+                                </label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_last_name" 
+                                       data-en="Last Name" 
+                                       data-ru="Фамилия" 
+                                       data-uz="Familiya">
+                                    Last Name
+                                </label>
+                                {{ form.last_name }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_email" 
+                                       data-en="Email Address" 
+                                       data-ru="Электронная почта" 
+                                       data-uz="Elektron pochta">
+                                    Email Address
+                                </label>
+                                {{ form.email }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_profile_photo" 
+                                       data-en="Profile Photo" 
+                                       data-ru="Фото профиля" 
+                                       data-uz="Profil rasmi">
+                                    Profile Photo
+                                </label>
+                                {{ form.profile_photo }}
+                            </div>
+                            <div class="form-buttons text-center">
+                                <button type="submit" class="btn btn-primary" 
+                                        data-en="Save Changes" 
+                                        data-ru="Сохранить изменения" 
+                                        data-uz="O'zgarishlarni saqlash">
+                                    Save Changes
+                                </button>
+                                <a href="{% url 'profile' %}" class="btn btn-secondary" 
+                                   data-en="Cancel" 
+                                   data-ru="Отмена" 
+                                   data-uz="Bekor qilish">
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

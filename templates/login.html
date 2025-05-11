@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MoneyPall - Login{% endblock title %}
+
+{% block content %}
+    <!-- Login Hero Section -->
+    <header class="hero-section" id="login">
+        <div class="container">
+            <div class="hero-content text-center">
+                <h1 class="hero-title" 
+                    data-en="Log In to MoneyPall" 
+                    data-ru="Войдите в MoneyPall" 
+                    data-uz="MoneyPall ga kiring">
+                    Log In to MoneyPall
+                </h1>
+                <p class="hero-text" 
+                    data-en="Access your financial dashboard" 
+                    data-ru="Получите доступ к финансовой панели" 
+                    data-uz="Moliyaviy boshqaruv paneliga kiring">
+                    Access your financial dashboard
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Form Section -->
+    <section class="login-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="login-card">
+                        <div class="section-title text-center">
+                            <h2 data-en="Login" data-ru="Вход" data-uz="Kirish">Login</h2>
+                            <p data-en="Enter your email to receive an OTP" 
+                               data-ru="Введите ваш email для получения OTP" 
+                               data-uz="OTP olish uchun emailingizni kiriting">
+                               Enter your email to receive an OTP
+                            </p>
+                        </div>
+                        {% if messages %}
+                            <div class="alert alert-danger">
+                                {% for message in messages %}
+                                    {{ message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <form id="loginForm" method="POST" action="{% url 'login' %}" style="margin-bottom: 200px;">
+                            {% csrf_token %}
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label for="email" 
+                                       data-en="Email Address" 
+                                       data-ru="Электронная почта" 
+                                       data-uz="Elektron pochta">
+                                    Email Address
+                                </label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block "
+                                    data-en="Send OTP" 
+                                    data-ru="Отправить OTP" 
+                                    data-uz="OTP yuborish">
+                                Send OTP
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

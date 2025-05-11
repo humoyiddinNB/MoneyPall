@@ -1,0 +1,352 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MoneyPall - Dashboard{% endblock title %}
+
+{% block content %}
+    <!-- Dashboard Hero Section -->
+    <header class="hero-section" id="dashboard">
+        <div class="container">
+            <div class="hero-content text-center">
+                <h1 class="hero-title"
+                    data-en="Dashboard"
+                    data-ru="Панель управления"
+                    data-uz="Boshqaruv paneli">
+                    Dashboard
+                </h1>
+                <p class="hero-text"
+                    data-en="Manage your income and expenses"
+                    data-ru="Управляйте своими доходами и расходами"
+                    data-uz="Daromad va xarajatlarni boshqaring">
+                    Manage your income and expenses
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Navigation -->
+    <nav class="dashboard-nav">
+        <ul class="nav nav-tabs justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" href="#income-section"
+                   data-en="Income" data-ru="Доходы" data-uz="Daromadlar">
+                    Income
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#expense-section"
+                   data-en="Expense" data-ru="Расходы" data-uz="Xarajatlar">
+                    Expense
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Dashboard Sections -->
+    <div class="dashboard-sections">
+        <!-- Income Section -->
+        <section id="income-section" class="dashboard-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-8">
+                        <div class="dashboard-card">
+                            <div class="section-title text-center">
+                                <h2 data-en="Add Income"
+                                    data-ru="Добавить доход"
+                                    data-uz="Daromad qo'shish">
+                                    Add Income
+                                </h2>
+                                <p data-en="Track your income by adding details below."
+                                   data-ru="Отслеживайте доходы, добавляя детали ниже."
+                                   data-uz="Quyida ma'lumotlarni qo'shib daromadlaringizni kuzating.">
+                                   Track your income by adding details below.
+                                </p>
+                            </div>
+                            {% if messages %}
+                                <div class="alert {% if 'error' in messages.tags %}alert-danger{% else %}alert-success{% endif %}">
+                                    {% for message in messages %}
+                                        {{ message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <form id="addIncomeForm" method="POST" action="{% url 'add_income' %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label data-en="Amount"
+                                           data-ru="Сумма"
+                                           data-uz="Miqdor">
+                                        Amount
+                                    </label>
+                                    <input type="number" class="form-control" name="amount" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label data-en="Category"
+                                           data-ru="Категория"
+                                           data-uz="Kategoriya">
+                                        Category
+                                    </label>
+                                    <div class="category-icons">
+                                        {% for category in income_categories %}
+                                            <div class="category-icon">
+                                                <input type="radio" name="category" value="{{ category.id }}" id="income-cat-{{ category.id }}" required>
+                                                <label for="income-cat-{{ category.id }}">
+                                                    <img src="{{ category.image.url|default:'/static/images/default_category.png' }}" alt="{{ category.name }}" class="category-image">
+                                                    <span data-en="{{ category.name }}"
+                                                          data-ru="{{ category.name }}"
+                                                          data-uz="{{ category.name }}">
+                                                        {{ category.name }}
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        {% empty %}
+                                            <p data-en="No categories available."
+                                               data-ru="Категории отсутствуют."
+                                               data-uz="Kategoriyalar mavjud emas.">
+                                               No categories available.
+                                            </p>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="add-category-link text-center">
+                                        <a href="{% url 'add_income_category' %}"
+                                           data-en="Add New Category"
+                                           data-ru="Добавить новую категорию"
+                                           data-uz="Yangi kategoriya qo'shish">
+                                            Add New Category
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label data-en="Currency"
+                                           data-ru="Валюта"
+                                           data-uz="Valyuta">
+                                        Currency
+                                    </label>
+                                    <select class="form-control" name="currency" required>
+                                        <option value="D" data-en="Dollar" data-ru="Доллар" data-uz="Dollar">Dollar</option>
+                                        <option value="S" data-en="Sum" data-ru="Сум" data-uz="So'm">Sum</option>
+                                        <option value="C" data-en="Credit Card" data-ru="Кредитная карта" data-uz="Kredit karta">Credit Card</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label data-en="Description"
+                                           data-ru="Описание"
+                                           data-uz="Tavsif">
+                                        Description
+                                    </label>
+                                    <textarea class="form-control" name="description" rows="4"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label data-en="Date"
+                                           data-ru="Дата"
+                                           data-uz="Sana">
+                                        Date
+                                    </label>
+                                    <input type="date" class="form-control" name="date" value="{{ today|date:'Y-m-d' }}">
+                                </div>
+                                <div class="form-buttons text-center">
+                                    <button type="submit" class="btn btn-primary"
+                                            data-en="Add Income"
+                                            data-ru="Добавить доход"
+                                            data-uz="Daromad qo'shish">
+                                        Add Income
+                                    </button>
+                                </div>
+                            </form>
+
+                            <!-- Income Statistics -->
+                            <div class="statistics-section">
+                                <h3 data-en="Income Statistics"
+                                    data-ru="Статистика доходов"
+                                    data-uz="Daromad statistikasi">
+                                    Income Statistics
+                                </h3>
+                                <div class="statistics-cards">
+                                    <div class="stat-card">
+                                        <h4 data-en="Daily" data-ru="Ежедневно" data-uz="Kunlik">Daily</h4>
+                                        <p>{{ daily_income|floatformat:2 }} UZS</p>
+                                    </div>
+                                    <div class="stat-card">
+                                        <h4 data-en="Weekly" data-ru="Еженедельно" data-uz="Haftalik">Weekly</h4>
+                                        <p>{{ weekly_income|floatformat:2 }} UZS</p>
+                                    </div>
+                                    <div class="stat-card">
+                                        <h4 data-en="Monthly" data-ru="Ежемесячно" data-uz="Oylik">Monthly</h4>
+                                        <p>{{ monthly_income|floatformat:2 }} UZS</p>
+                                    </div>
+                                    <div class="stat-card">
+                                        <h4 data-en="Yearly" data-ru="Ежегодно" data-uz="Yillik">Yearly</h4>
+                                        <p>{{ yearly_income|floatformat:2 }} UZS</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expense Section -->
+        <section id="expense-section" class="dashboard-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-8">
+                        <div class="dashboard-card">
+                            <div class="section-title text-center">
+                                <h2 data-en="Add Expense"
+                                    data-ru="Добавить расход"
+                                    data-uz="Xarajat qo'shish">
+                                    Add Expense
+                                </h2>
+                                <p data-en="Track your expenses by adding details below."
+                                   data-ru="Отслеживайте расходы, добавляя детали ниже."
+                                   data-uz="Quyida ma'lumotlarni qo'shib xarajatlaringizni kuzating.">
+                                   Track your expenses by adding details below.
+                                </p>
+                            </div>
+                            {% if messages %}
+                                <div class="alert {% if 'error' in messages.tags %}alert-danger{% else %}alert-success{% endif %}">
+                                    {% for message in messages %}
+                                        {{ message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <form id="addExpenseForm" method="POST" action="{% url 'add_expense' %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label data-en="Amount"
+                                           data-ru="Сумма"
+                                           data-uz="Miqdor">
+                                        Amount
+                                    </label>
+                                    <input type="number" class="form-control" name="amount" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label data-en="Category"
+                                           data-ru="Категория"
+                                           data-uz="Kategoriya">
+                                        Category
+                                    </label>
+                                    <div class="category-icons">
+                                        {% for category in expense_categories %}
+                                            <div class="category-icon">
+                                                <input type="radio" name="category" value="{{ category.id }}" id="expense-cat-{{ category.id }}" required>
+                                                <label for="expense-cat-{{ category.id }}">
+                                                    <img src="{{ category.image.url|default:'/static/images/default_category.png' }}" alt="{{ category.name }}" class="category-image">
+                                                    <span data-en="{{ category.name }}"
+                                                          data-ru="{{ category.name }}"
+                                                          data-uz="{{ category.name }}">
+                                                        {{ category.name }}
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        {% empty %}
+                                            <p data-en="No categories available."
+                                               data-ru="Категории отсутствуют."
+                                               data-uz="Kategoriyalar mavjud emas.">
+                                               No categories available.
+                                            </p>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="add-category-link text-center">
+                                        <a href="{% url 'add_expense_category' %}"
+                                           data-en="Add New Category"
+                                           data-ru="Добавить новую категорию"
+                                           data-uz="Yangi kategoriya qo'shish">
+                                            Add New Category
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label data-en="Currency"
+                                           data-ru="Валюта"
+                                           data-uz="Valyuta">
+                                        Currency
+                                    </label>
+                                    <select class="form-control" name="currency" required>
+                                        <option value="D" data-en="Dollar" data-ru="Доллар" data-uz="Dollar">Dollar</option>
+                                        <option value="S" data-en="Sum" data-ru="Сум" data-uz="So'm">Sum</option>
+                                        <option value="C" data-en="Credit Card" data-ru="Кредитная карта" data-uz="Kredit karta">Credit Card</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label data-en="Description"
+                                           data-ru="Описание"
+                                           data-uz="Tavsif">
+                                        Description
+                                    </label>
+                                    <textarea class="form-control" name="description" rows="4"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label data-en="Date"
+                                           data-ru="Дата"
+                                           data-uz="Sana">
+                                        Date
+                                    </label>
+                                    <input type="date" class="form-control" name="date" value="{{ today|date:'Y-m-d' }}">
+                                </div>
+                                <div class="form-buttons text-center">
+                                    <button type="submit" class="btn btn-primary"
+                                            data-en="Add Expense"
+                                            data-ru="Добавить расход"
+                                            data-uz="Xarajat qo'shish">
+                                        Add Expense
+                                    </button>
+                                </div>
+                            </form>
+
+                            <!-- Expense Statistics -->
+                            <div class="statistics-section">
+                                <h3 data-en="Expense Statistics"
+                                    data-ru="Статистика расходов"
+                                    data-uz="Xarajat statistikasi">
+                                    Expense Statistics
+                                </h3>
+                                <div class="statistics-cards">
+                                    <div class="stat-card">
+                                        <h4 data-en="Daily" data-ru="Ежедневно" data-uz="Kunlik">Daily</h4>
+                                        <p>{{ daily_expense|floatformat:2 }} UZS</p>
+                                    </div>
+                                    <div class="stat-card">
+                                        <h4 data-en="Weekly" data-ru="Еженедельно" data-uz="Haftalik">Weekly</h4>
+                                        <p>{{ weekly_expense|floatformat:2 }} UZS</p>
+                                    </div>
+                                    <div class="stat-card">
+                                        <h4 data-en="Monthly" data-ru="Ежемесячно" data-uz="Oylik">Monthly</h4>
+                                        <p>{{ monthly_expense|floatformat:2 }} UZS</p>
+                                    </div>
+                                    <div class="stat-card">
+                                        <h4 data-en="Yearly" data-ru="Ежегодно" data-uz="Yillik">Yearly</h4>
+                                        <p>{{ yearly_expense|floatformat:2 }} UZS</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Summary Statistics -->
+    <section class="summary-statistics container">
+        <h3 data-en="Summary"
+            data-ru="Сводка"
+            data-uz="Xulosa">
+            Summary
+        </h3>
+        <div class="statistics-cards">
+            <div class="stat-card">
+                <h4 data-en="Total Income" data-ru="Общий доход" data-uz="Umumiy daromad">Total Income</h4>
+                <p>{{ total_income|floatformat:2 }} UZS</p>
+            </div>
+            <div class="stat-card">
+                <h4 data-en="Total Expense" data-ru="Общие расходы" data-uz="Umumiy xarajat">Total Expense</h4>
+                <p>{{ total_expense|floatformat:2 }} UZS</p>
+            </div>
+            <div class="stat-card">
+                <h4 data-en="Balance" data-ru="Баланс" data-uz="Balans">Balance</h4>
+                <p class="{% if balance >= 0 %}text-green-600{% else %}text-red-600{% endif %}">{{ balance|floatformat:2 }} UZS</p>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

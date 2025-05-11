@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MoneyPall - Add Expense Category{% endblock title %}
+
+{% block content %}
+    <!-- Add Expense Category Section -->
+    <section class="add-category-section">
+        <div class="container">
+            <div class="row justify-content-center" style="margin-bottom: 50px;">
+                <div class="col-md-8 col-lg-6">
+                    <div class="dashboard-card" style="margin-top: 80px;">
+                        <div class="section-title text-center">
+                            <h2 data-en="Add Expense Category" 
+                                data-ru="Добавить категорию расходов" 
+                                data-uz="Xarajat kategoriyasini qo'shish">
+                                Add Expense Category
+                            </h2>
+                            <p data-en="Create a new category for your expenses." 
+                               data-ru="Создайте новую категорию для ваших расходов." 
+                               data-uz="Xarajatlaringiz uchun yangi kategoriya yarating.">
+                               Create a new category for your expenses.
+                            </p>
+                        </div>
+                        {% if messages %}
+                            <div class="alert {% if 'error' in messages.tags %}alert-danger{% else %}alert-success{% endif %}">
+                                {% for message in messages %}
+                                    {{ message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                {% for field, errors in form.errors.items %}
+                                    {{ errors|join:", " }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <form id="addExpenseCategoryForm" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="{{ form.name.id_for_label }}"
+                                       data-en="Category Name" 
+                                       data-ru="Название категории" 
+                                       data-uz="Kategoriya nomi">
+                                    Category Name
+                                </label>
+                                {{ form.name }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.image.id_for_label }}"
+                                       data-en="Category Image (Optional)" 
+                                       data-ru="Изображение категории (необязательно)" 
+                                       data-uz="Kategoriya rasmi (ixtiyoriy)">
+                                    Category Image (Optional)
+                                </label>
+                                {{ form.image }}
+                            </div>
+                            <div class="form-buttons text-center">
+                                <button type="submit" class="btn btn-primary" 
+                                        data-en="Add Category" 
+                                        data-ru="Добавить категорию" 
+                                        data-uz="Kategoriya qo'shish">
+                                    Add Category
+                                </button>
+                                <a href="{% url 'dashboard' %}" class="btn btn-secondary"
+                                   data-en="Cancel" 
+                                   data-ru="Отмена" 
+                                   data-uz="Bekor qilish">
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

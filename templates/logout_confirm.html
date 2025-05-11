@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MoneyPall - Confirm Logout{% endblock title %}
+
+{% block content %}
+    <!-- Logout Confirm Hero Section -->
+    <header class="hero-section" id="logout-confirm">
+        <div class="container">
+            <div class="hero-content text-center">
+                <h1 class="hero-title" 
+                    data-en="Confirm Logout" 
+                    data-ru="Подтвердить выход" 
+                    data-uz="Chiqishni tasdiqlang">
+                    Confirm Logout
+                </h1>
+                <p class="hero-text" 
+                    data-en="Are you sure you want to log out?" 
+                    data-ru="Вы уверены, что хотите выйти?" 
+                    data-uz="Haqiqatan chiqmoqchimisiz?">
+                    Are you sure you want to log out?
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Logout Confirm Section -->
+    <section class="logout-confirm-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="logout-confirm-card">
+                        <div class="section-title text-center">
+                            <h2 data-en="Logout Confirmation" 
+                                data-ru="Подтверждение выхода" 
+                                data-uz="Chiqish tasdiqlash">
+                                Logout Confirmation
+                            </h2>
+                            <p data-en="Please confirm if you want to log out of your account." 
+                               data-ru="Пожалуйста, подтвердите, если хотите выйти из аккаунта." 
+                               data-uz="Hisobingizdan chiqmoqchi ekanligingizni tasdiqlang.">
+                               Please confirm if you want to log out of your account.
+                            </p>
+                        </div>
+                        <form id="logoutConfirmForm" method="POST" action="{% url 'logout_confirm' %}">
+                            {% csrf_token %}
+                            <div class="form-buttons text-center">
+                                <button type="submit" class="btn btn-danger" 
+                                        data-en="Confirm Logout" 
+                                        data-ru="Подтвердить выход" 
+                                        data-uz="Chiqishni tasdiqlash">
+                                    Confirm Logout
+                                </button>
+                                <a href="{% url 'homepage' %}" class="btn btn-secondary"
+                                   data-en="Cancel" 
+                                   data-ru="Отмена" 
+                                   data-uz="Bekor qilish">
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

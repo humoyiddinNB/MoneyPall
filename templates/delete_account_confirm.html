@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}MoneyPall - Delete Account{% endblock title %}
+
+{% block content %}
+    <!-- Delete Account Hero Section -->
+    <header class="hero-section" id="delete-account">
+        <div class="container">
+            <div class="hero-content text-center">
+                <h1 class="hero-title" 
+                    data-en="Delete Account" 
+                    data-ru="Удалить аккаунт" 
+                    data-uz="Hisobni o'chirish">
+                    Delete Account
+                </h1>
+                <p class="hero-text" 
+                    data-en="Confirm to permanently delete your account" 
+                    data-ru="Подтвердите, чтобы навсегда удалить аккаунт" 
+                    data-uz="Hisobingizni butunlay o'chirish uchun tasdiqlang">
+                    Confirm to permanently delete your account
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Delete Account Section -->
+    <section class="delete-account-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="delete-account-card">
+                        <div class="section-title text-center">
+                            <h2 data-en="Confirm Account Deletion" 
+                                data-ru="Подтверждение удаления аккаунта" 
+                                data-uz="Hisobni o'chirishni tasdiqlash">
+                                Confirm Account Deletion
+                            </h2>
+                            <p data-en="This action cannot be undone. Are you sure you want to delete your account?" 
+                               data-ru="Это действие нельзя отменить. Вы уверены, что хотите удалить аккаунт?" 
+                               data-uz="Bu amalni bekor qilib bo'lmaydi. Hisobingizni o'chirmoqchi ekanligingizga ishonchingiz komilmi?">
+                               This action cannot be undone. Are you sure you want to delete your account?
+                            </p>
+                        </div>
+                        {% if messages %}
+                            <div class="alert {% if 'error' in messages.tags %}alert-danger{% else %}alert-success{% endif %}">
+                                {% for message in messages %}
+                                    {{ message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <form id="deleteAccountForm" method="POST" action="{% url 'delete_account' %}">
+                            {% csrf_token %}
+                            <div class="form-buttons text-center">
+                                <button type="submit" class="btn btn-danger" 
+                                        data-en="Confirm Deletion" 
+                                        data-ru="Подтвердить удаление" 
+                                        data-uz="O'chirishni tasdiqlash">
+                                    Confirm Deletion
+                                </button>
+                                <a href="{% url 'profile' %}" class="btn btn-secondary" 
+                                   data-en="Cancel" 
+                                   data-ru="Отмена" 
+                                   data-uz="Bekor qilish">
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
