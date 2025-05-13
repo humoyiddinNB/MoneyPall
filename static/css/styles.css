@@ -1,3 +1,58 @@
+/* Money Bills Animation Container */
+.money-bills-container {
+    width: 300px;
+    height: 300px;
+    max-width: 100%;
+}
+
+@media (max-width: 767.98px) {
+    .money-bills-container {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+    }
+    .hero-section .row {
+        flex-direction: column;
+    }
+    .hero-section .col-lg-6 {
+        text-align: center !important;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* Theme compatibility for animation */
+.light-mode .money-bills-container {
+    filter: brightness(1);
+}
+
+.dark-mode .money-bills-container {
+    filter: brightness(0.8);
+}
+
+
+
+
+.hero-buttons .btn {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    perspective: 1000px;
+}
+
+.hero-buttons .btn:hover {
+    transform: translateY(-5px) rotateX(10deg) rotateY(10deg);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .hero-buttons .btn:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+.hero-animation-container {
+    transition: transform 0.2s ease;
+    transform-style: preserve-3d;
+}
+
+
 /* Navbar (base.html) */
 .nav-link {
     font-weight: 600;

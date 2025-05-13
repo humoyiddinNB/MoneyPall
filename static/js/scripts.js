@@ -59,6 +59,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const languageText = document.querySelector('.language-text');
     const translatableElements = document.querySelectorAll('[data-en][data-ru][data-uz]');
 
+
+
+
+
+    // Load Money Bills Lottie Animation
+    const moneyBillsContainer = document.querySelector('#moneyBillsAnimation');
+    if (moneyBillsContainer) {
+        lottie.loadAnimation({
+            container: moneyBillsContainer,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets.lottiefiles.com/packages/lf20_3k9xMA.json' // Free money bills animation from LottieFiles
+        });
+    }
+
+
+
     function setLanguage(lang) {
         translatableElements.forEach(element => {
             element.textContent = element.getAttribute(`data-${lang}`);
@@ -367,6 +385,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 emailInput.classList.remove('is-valid');
             }
         });
+    }
+
+    const heroAnimationContainer = document.querySelector('.hero-animation-container');
+    if (heroAnimationContainer) {
+        heroAnimationContainer.addEventListener('mousemove', (e) => {
+            const rect = heroAnimationContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            const tiltX = (y / rect.height) * 10; // Max 10deg tilt
+            const tiltY = -(x / rect.width) * 10;
+            heroAnimationContainer.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        });
+
+        heroAnimationContainer.addEventListener('mouseleave', () => {
+            heroAnimationContainer.style.transform = 'rotateX(0) rotateY(0)';
+        });
+    }
+
+    const coinContainer = document.querySelector('.coin-stack-container');
+    if (coinContainer) {
+        for (let i = 0; i < 4; i++) {
+            const coin = document.createElement('div');
+            coin.classList.add('coin');
+            coinContainer.appendChild(coin);
+        }
     }
 });
 

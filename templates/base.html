@@ -14,6 +14,8 @@
     <!-- Lottie Player -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.2/lottie.min.js"></script>
     <!-- Chart.js -->
+    <!-- Lottie Library for Animations -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@1.5.7/dist/lottie-player.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
 <body class="light-mode">
@@ -195,5 +197,45 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="{% static 'js/scripts.js' %}"></script>
+
+    {% if user.is_authenticated %}
+    <!-- JSON ma'lumotlar templatedan JSga uzatiladi -->
+    {{ category_data|json_script:"categoryLabels" }}
+
+    <!-- Chart.js kutubxonasi (agar hali ulab bo'lmagan bo'lsangiz) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- JS kodi: grafiklarni chizish -->
+    <script>
+        const categoryData = JSON.parse(document.getElementById('categoryLabels').textContent);
+
+        const spendingPieChart = document.getElementById('spendingPieChart').getContext('2d');
+        new Chart(spendingPieChart, {
+            type: 'pie',
+            data: {
+                labels: categoryData.map(cat => cat.name),
+                datasets: [{
+                    label: 'Expenses',
+                    data: categoryData.map(cat => cat.total),
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+                }]
+            }
+        });
+
+        const incomeExpenseChart = document.getElementById('incomeExpenseChart').getContext('2d');
+        new Chart(incomeExpenseChart, {
+            type: 'bar',
+            data: {
+                labels: ['Income', 'Expense'],
+                datasets: [{
+                    label: 'Amount',
+                    data: [{{ total_income }}, {{ total_expense }}],
+                    backgroundColor: ['#4CAF50', '#F44336']
+                }]
+            }
+        });
+    </script>
+    {% endif %}
+
 </body>
 </html>

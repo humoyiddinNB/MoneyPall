@@ -7,30 +7,50 @@ from django.core.mail import send_mail
 from .models import EmailOTP, CustomUser
 import random
 from django.contrib.auth.mixins import LoginRequiredMixin
-from income_outcome.models import Income
+from income_outcome.models import Income, Expense
 from django.utils.timezone import now
 from datetime import timedelta
 from django.db.models import Sum
+from income_outcome.models import ExpenseCategory
+
+
 
 class HomePageView(View):
     def get(self, request):
-        today = now().date()
-        start_of_week = today - timedelta(days=today.weekday())
-        start_of_month = today.replace(day=1)
+        context = {}
 
-        todays_income = Income.objects.filter(date=today).aggregate(Sum('amount'))['amount__sum'] or 0
+        if request.user.is_authenticated:
+            today = now().date()
+            start_of_week = today - timedelta(days=today.weekday())
+            start_of_month = today.replace(day=1)
 
-        weekly_income = Income.objects.filter(date__gte=start_of_week, date__lte=today).aggregate(Sum('amount'))['amount__sum'] or 0
+            todays_income = Income.objects.filter(user=request.user, date=today).aggregate(Sum('amount'))['amount__sum'] or 0
+            weekly_income = Income.objects.filter(user=request.user, date__gte=start_of_week, date__lte=today).aggregate(Sum('amount'))['amount__sum'] or 0
+            monthly_income = Income.objects.filter(user=request.user, date__gte=start_of_month, date__lte=today).aggregate(Sum('amount'))['amount__sum'] or 0
 
-        monthly_income = Income.objects.filter(date__gte=start_of_month, date__lte=today).aggregate(Sum('amount'))['amount__sum'] or 0
+            total_income = Income.objects.filter(user=request.user).aggregate(Sum('amount'))['amount__sum'] or 0
+            total_expense = Expense.objects.filter(user=request.user).aggregate(Sum('amount'))['amount__sum'] or 0
 
-        context = {
-            'todays_income': todays_income,
-            'weekly_income': weekly_income,
-            'monthly_income': monthly_income,
-        }
+            category_data = []
+            categories = ExpenseCategory.objects.all()
+            for category in categories:
+                total = Expense.objects.filter(user=request.user, category=category).aggregate(Sum('amount'))['amount__sum'] or 0
+                if total > 0:
+                    category_data.append({
+                        'name': category.name,
+                        'total': total
+                    })
+
+            context.update({
+                'todays_income': todays_income,
+                'weekly_income': weekly_income,
+                'monthly_income': monthly_income,
+                'category_data': category_data,
+                'total_income': total_income,
+                'total_expense': total_expense,
+            })
+
         return render(request, 'homepage.html', context)
-
 
 
 class RegisterView(View):
